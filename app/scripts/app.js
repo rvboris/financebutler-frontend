@@ -14,6 +14,10 @@ angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.
 				url: '/auth',
 				templateUrl: 'views/auth.html',
 			})
+            .state('authMobile', {
+                url: '/auth-mobile',
+                templateUrl: 'views/auth-mobile.html',
+            })
 			.state('error', {
 				url: '/error/:code',
 				templateUrl: 'views/error.html',
@@ -45,7 +49,8 @@ angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.
 		$rootScope.$apiKey = window.apiKey || false;
 
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-			if (toState.name !== 'auth' && !$rootScope.$apiKey) {
+
+			if ((toState.name !== 'auth' && toState.name !== 'authMobile') && !$rootScope.$apiKey) {
 				event.preventDefault();
 				$rootScope.$state.transitionTo('auth');
 			}

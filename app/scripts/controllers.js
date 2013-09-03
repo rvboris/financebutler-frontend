@@ -1,4 +1,4 @@
-angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstrap.popover', 'ui.select2'])
+angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstrap.dropdownToggle', 'ui.select2'])
 	.controller('UserCtrl', ['$rootScope', '$scope', '$log', 'Restangular', function($rootScope, $scope, $log, Restangular) {
 		$scope.instock = [];
 		$scope.arrears = [];

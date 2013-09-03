@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- build:css({.tmp,app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="bower_components/select2/select2.css">
 
@@ -28,8 +28,8 @@
       <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <div class="container" ui-view></div>
-    
+    <div class="row" ui-view></div>
+
     {{#if apiKey}}
         <script>
             window.apiKey = '{{apiKey}}';
@@ -38,7 +38,7 @@
 
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    
+
     <!-- build:js scripts/plugins.js -->
     <script src="scripts/bootstrap-ui.js"></script>
     <script src="bower_components/select2/select2.js"></script>
