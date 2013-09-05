@@ -30,6 +30,10 @@
 
     <div class="row" ui-view></div>
 
+    <script>
+        window.locale = '{{locale}}';
+    </script>
+
     {{#if apiKey}}
         <script>
             window.apiKey = '{{apiKey}}';
@@ -50,6 +54,8 @@
     <!-- build:js scripts/modules.js -->
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/restangular/dist/restangular.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbuild -->
 

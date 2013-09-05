@@ -1,7 +1,13 @@
 'use strict';
 
-angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.state'])
-	.config(function($stateProvider, $urlRouterProvider) {
+angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.state', 'pascalprecht.translate'])
+	.config(function($stateProvider, $urlRouterProvider, $translateProvider) {
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'translations/locale-',
+            suffix: '.json'
+        });
+        $translateProvider.preferredLanguage(window.locale);
+
 		$urlRouterProvider.otherwise('/').when('/home', '/');
 
 		$stateProvider
@@ -43,6 +49,7 @@ angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.
 	.run(['$rootScope', '$state', 'Restangular', function($rootScope, $state, Restangular) {
 		$rootScope.$state = $state;
 		$rootScope.$apiKey = window.apiKey || false;
+        $rootScope.$locale = window.locale || 'ru_RU';
 
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 			if (toState.name !== 'auth' && !$rootScope.$apiKey) {
