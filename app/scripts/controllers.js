@@ -8,14 +8,14 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 				if (key === 'instock') {
 					$scope.instock.length = 0;
 
-					for (var CurrencyId in val) {
-						$scope.instock.push({ CurrencyId: parseInt(CurrencyId), total: val[CurrencyId] });
+					for (var currencyId in val) {
+						$scope.instock.push({ currencyId: parseInt(currencyId), total: val[currencyId] });
 					}
 				} else if (key === 'arrears') {
 					$scope.arrears.length = 0;
 
-					for (var CurrencyId in val) {
-						$scope.arrears.push({ CurrencyId: parseInt(CurrencyId), total: val[CurrencyId] });
+					for (var currencyId in val) {
+						$scope.arrears.push({ currencyId: parseInt(currencyId), total: val[currencyId] });
 					}
 				} else if ($scope[key]) {
 					$scope[key] = val;
@@ -43,48 +43,123 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 				}
 			});
 	}])
-	.controller('AccountCtrl', ['$scope', '$log', 'Restangular', function($scope, $log, Restangular) {
+	.controller('AccountCtrl', ['$scope', '$log', '$q', 'Restangular', function($scope, $log, $q, Restangular) {
 		var baseAccounts = Restangular.all('account');
 		var baseCurrency = Restangular.all('currency');
 
 		$scope.accounts = baseAccounts.getList();
 		$scope.currency = baseCurrency.getList();
-		$scope.defaultCurrencyId = 0;
-		$scope.addAccountDialog = false;
-		$scope.newAccount = {
+
+		$scope.defaultCurrencyId = null;
+        $scope.activeAccountId = null;
+        $scope.activeMode = null;
+
+		$scope.accountDialog = false;
+        $scope.removeAccountDialog = false;
+
+		$scope.activeAccount = {
 			name: '',
 			startValue: 0,
-			currency: 0
+			currency: null
 		};
 
-		$scope.addAccountDialogOpen = function() {
-			$scope.newAccount.name = '';
-			$scope.newAccount.startValue = 0;
-			$scope.newAccount.currency = $scope.defaultCurrencyId;
-			$scope.addAccountDialog = true;
+		$scope.accountDialogOpen = function(mode, accountId) {
+            $scope.activeMode = mode;
+
+            if (accountId) {
+                $scope.activeAccountId = accountId;
+            }
+
+            if (mode === 'new') {
+                $scope.activeAccount.name = '';
+                $scope.activeAccount.startValue = 0;
+                $scope.activeAccount.currency = $scope.defaultCurrencyId;
+                $scope.accountDialog = true;
+            } else {
+                $q.all([$scope.accounts, $scope.currency]).then(function(results) {
+                    var accountList = results[0];
+                    var currencyList = results[1];
+
+                    var accountToPopulate = _.find(accountList, function(account) {
+                        return account.id === $scope.activeAccountId;
+                    });
+
+                    $scope.activeAccount.name = accountToPopulate.name;
+                    $scope.activeAccount.startValue = accountToPopulate.startValue;
+                    $scope.activeAccount.currency = _.findIndex(currencyList, function(currency) {
+                        return currency.id === accountToPopulate.currencyId
+                    });
+
+                    $scope.accountDialog = true;
+                });
+            }
 		};
 
-		$scope.addAccountDialogClose = function() {
-			$scope.addAccountDialog = false;
+		$scope.accountDialogClose = function() {
+			$scope.accountDialog = false;
 		};
 
-		$scope.addAccountDialogSave = function() {
-			$scope.addAccountDialogClose();
+		$scope.accountDialogSave = function() {
+            if ($scope.activeMode === 'new') {
+                $scope.currency.then(function(currency) {
+                    baseAccounts.post({
+                        name: $scope.activeAccount.name,
+                        startValue: $scope.activeAccount.startValue,
+                        currency: currency[$scope.activeAccount.currency].id
+                    }).then(function(accounts) {
+                        $scope.accounts = baseAccounts.getList();
+                        $scope.accountDialogClose();
+                    });
+                });
 
-			$scope.currency.then(function(currency) {
-				baseAccounts.post({
-					name: $scope.newAccount.name,
-					startValue: $scope.newAccount.startValue,
-					currency: currency[$scope.newAccount.currency].id
-				}).then(function(accounts) {
-					$scope.accounts = baseAccounts.getList();
-				});
-			});
+                return;
+            }
+
+            $q.all([$scope.accounts, $scope.currency]).then(function(results) {
+                var accountList = results[0];
+                var currencyList = results[1];
+
+                var accountToSave = _.find(accountList, function(account) {
+                    return account.id === $scope.activeAccountId;
+                });
+
+                accountToSave.name = $scope.activeAccount.name;
+                accountToSave.startValue = $scope.activeAccount.startValue;
+                accountToSave.currency = currencyList[$scope.activeAccount.currency].id;
+
+                accountToSave.put().then(function() {
+                    $scope.accounts = baseAccounts.getList();
+                    $scope.accountDialogClose();
+                });
+            });
 		};
+
+        $scope.removeAccountDialogOpen = function(accountId) {
+            $scope.removeAccountDialog = true;
+            $scope.activeAccountId = accountId;
+        };
+
+        $scope.removeAccountDialogClose = function() {
+            $scope.removeAccountDialog = false;
+        };
+
+        $scope.removeAccountDialogSave = function() {
+            $scope.removeAccountDialogClose();
+
+            $scope.accounts.then(function(accounts) {
+                var accountToDelete = _.find(accounts, function(account) {
+                    return account.id === $scope.activeAccountId;
+                });
+
+                accountToDelete.remove().then(function() {
+                    $scope.accounts = baseAccounts.getList();
+                });
+            });
+        };
 
 		$scope.$watch('currency', function(currency) {
 			_.each(currency, function(cur, idx) {
-				if (cur.titleShort === 'RUB') {
+				if (cur.code === 'RUB') {
 					$scope.defaultCurrencyId = idx;
 				}
 			});
@@ -98,15 +173,15 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 
 			_.each(accounts, function(account) {
 				if (account.currentValue < 0) {
-					if (!arrears[account.CurrencyId]) {
-						arrears[account.CurrencyId] = 0;
+					if (!arrears[account.currencyId]) {
+						arrears[account.currencyId] = 0;
 					}
-					arrears[account.CurrencyId] += parseFloat(account.currentValue);
+					arrears[account.currencyId] += parseFloat(account.currentValue);
 				} else {
-					if (!instock[account.CurrencyId]) {
-						instock[account.CurrencyId] = 0;
+					if (!instock[account.currencyId]) {
+						instock[account.currencyId] = 0;
 					}
-					instock[account.CurrencyId] += parseFloat(account.currentValue);
+					instock[account.currencyId] += parseFloat(account.currentValue);
 				}
 			});
 

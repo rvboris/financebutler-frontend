@@ -5,24 +5,64 @@
       font-weight: normal;
       font-style: normal;
   }
-body{padding:55px;background:#ecf0f1}
-a{color:#777;}
-a:hover,a.active{color:#333}
-#top-navbar{background:#ecf0f1;border-bottom:3px solid #27ae60;}
-#top-navbar .arrears,#top-navbar .instock{margin-right:10px;}
-#top-navbar .arrears strong,#top-navbar .instock strong{padding-right:3px}
-#top-navbar .navbar-brand{background:url("../img/logo.png") no-repeat 15px center;padding-left:75px;max-width:none;font-family:harlow_solid_italicitalic;font-size:21px}
-#top-navbar .navbar-text{color:#777}
-#top-navbar .navbar-nav > .active > a,#top-navbar .navbar-nav > .active a{color:#27ae60;background:#ecf0f1}
-#top-navbar .nav > li > a:hover,#top-navbar .nav > li > a:focus{background:#ecf0f1}
-#top-navbar .nav a .caret{border-top-color:#777;border-bottom-color:#777}
-#top-navbar .nav a:hover .caret{border-top-color:#333;border-bottom-color:#333}
-.dropdown-menu{background:#333;border-radius:0;}
-.dropdown-menu > li > a{color:#ecf0f1;}
-.dropdown-menu > li > a:hover{background:#27ae60}
 [ngcloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none}
-
-.add-account-form .currency-title{line-height:38px}
-.add-account-form .select2-container .select2-choice,.add-account-form .select2-container .select2-choice > .select2-chosen,.add-account-form .select2-search,.add-account-form .select2-search input,.add-account-form .select2-container-multi .select2-choices{height:38px !important;line-height:38px !important}
-.add-account-form .select2-container .select2-choice,.add-account-form .select2-container.select2-drop-above .select2-choice,.add-account-form .select2-drop,.add-account-form .select2-drop.select2-drop-above,.add-account-form .select2-container .select2-choice .select2-arrow,.add-account-form .select2-search input,.add-account-form .select2-dropdown-open .select2-choice,.add-account-form .select2-container-multi .select2-choices .select2-search-choice{border-radius:0 !important}
+body{background:#ecf0f1}
+.ng-pageslide{display:none;overflow:hidden;}
+.ng-pageslide.ps-hidden{padding:0}
+.sidebar{position:fixed;top:0;bottom:0}
+.top-border{position:fixed;top:0;left:0;right:0;height:55px;border-bottom:5px solid #e6ebec}
+.sidebar,.ng-pageslide{background:#2c3e50;padding:20px;}
+.sidebar .wrap,.ng-pageslide .wrap{height:100%;width:100%;position:relative}
+.sidebar .userinfo,.ng-pageslide .userinfo{margin-bottom:15px}
+.sidebar .username,.ng-pageslide .username{color:#ecf0f1}
+.sidebar .userpic,.ng-pageslide .userpic{position:relative;border-radius:50%;}
+.sidebar .userpic img,.ng-pageslide .userpic img{border-radius:50%}
+.sidebar .userpic .overlay,.ng-pageslide .userpic .overlay,.sidebar .userpic .settings,.ng-pageslide .userpic .settings{position:absolute;top:0;bottom:0;left:0;right:0;border-radius:50%;display:none}
+.sidebar .userpic .overlay,.ng-pageslide .userpic .overlay{background:#000;opacity:.5}
+.sidebar .userpic .settings,.ng-pageslide .userpic .settings{color:#ecf0f1;font-size:330%;}
+.sidebar .userpic .settings span,.ng-pageslide .userpic .settings span{padding:35%;color:#ecf0f1}
+.sidebar .userpic:hover .overlay,.ng-pageslide .userpic:hover .overlay,.sidebar .userpic:hover .settings,.ng-pageslide .userpic:hover .settings{display:block}
+.sidebar .nav-pills>li.active>a,.ng-pageslide .nav-pills>li.active>a,.sidebar .nav-pills>li.active>a:hover,.ng-pageslide .nav-pills>li.active>a:hover,.sidebar .nav-pills>li.active>a:focus,.ng-pageslide .nav-pills>li.active>a:focus{background:#27ae60;color:#ecf0f1}
+.sidebar .nav>li>a:hover,.ng-pageslide .nav>li>a:hover,.sidebar .nav>li>a:focus,.ng-pageslide .nav>li>a:focus{background:transparent;border:1px dashed #ecf0f1;padding:9px 14px}
+.sidebar .nav>li>a,.ng-pageslide .nav>li>a{color:#ecf0f1}
+.sidebar .footer,.ng-pageslide .footer{position:absolute;bottom:20px;left:20px;right:20px;}
+.sidebar .footer a,.ng-pageslide .footer a{color:#7f8c8d;}
+.sidebar .footer a:hover,.ng-pageslide .footer a:hover{color:#e67e22;text-decoration:none}
+.header{margin-bottom:15px;}
+.header .logo{background:url("../images/logo.png") no-repeat left center;font-family:'harlow_solid_italicitalic';font-weight:lighter;padding-left:80px;font-size:35px;color:#adb1b7;display:inline-block;}
+.header .logo:hover{text-decoration:none;color:#999ea6}
+.header .instock{margin-right:10px}
+.header .sidebar-toggle{margin:8px}
+@media screen and (max-width: 767px){.ng-pageslide{display:block}
+}@media screen and (min-width: 1200px){.sidebar{max-width:205px}
+}
+.add-account-form .currency-title{line-height:34px}
+.add-account-form .select2-container .select2-choice,.add-account-form .select2-container .select2-choice > .select2-chosen,.add-account-form .select2-search,.add-account-form .select2-search input,.add-account-form .select2-container-multi .select2-choices{height:34px !important;line-height:34px !important}
+.add-account-form .select2-container .select2-choice,.add-account-form .select2-container.select2-drop-above .select2-choice,.add-account-form .select2-drop,.add-account-form .select2-drop.select2-drop-above,.add-account-form .select2-container .select2-choice .select2-arrow,.add-account-form .select2-search input,.add-account-form .select2-dropdown-open .select2-choice,.add-account-form .select2-container-multi .select2-choices .select2-search-choice{border-radius:2px !important}
+.add-account-form .alert-info{margin:0}
+.parent-operations .btn.add-operation,.parent-operations .btn.add-account{margin:10px 0}
 .parent-operations table.accounts tbody td{line-height:30px}
+
+.ng-pageslide{position:fixed;z-index:1001;}
+.ng-pageslide.ps-right{width:205px;top:0;bottom:0;right:0;overflow-x:hidden;}
+.ng-pageslide.ps-right.ps-hidden{width:0}
+.ng-pageslide.ps-right.ps-shown{width:205px}
+.ng-pageslide.ps-left{width:205px;top:0;bottom:0;left:0;overflow-x:hidden;}
+.ng-pageslide.ps-left.ps-hidden{width:0}
+.ng-pageslide.ps-left.ps-shown{width:205px}
+.ng-pageslide.ps-top{height:200px;top:0;right:0;left:0;overflow-y:hidden;}
+.ng-pageslide.ps-top.ps-hidden{height:0}
+.ng-pageslide.ps-top.ps-shown{height:200px}
+.ng-pageslide.ps-bottom{height:200px;right:0;bottom:0;left:0;overflow-y:hidden;}
+.ng-pageslide.ps-bottom.ps-hidden{height:0}
+.ng-pageslide.ps-bottom.ps-shown{height:200px}
+
+.select2-container .select2-choice abbr{background:url("../images/select2.png") right top no-repeat}
+.select2-container .select2-choice .select2-arrow b{background:url("../images/select2.png") no-repeat 0 1px}
+.select2-search input{background:#fff url("../images/select2.png") no-repeat 100% -22px;background:url("../images/select2.png") no-repeat 100% -22px,-webkit-gradient(linear,left bottom,left top,color-stop(.85,#fff),color-stop(.99,#eee));background:url("../images/select2.png") no-repeat 100% -22px,-webkit-linear-gradient(center bottom,#fff 85%,#eee 99%);background:url("../images/select2.png") no-repeat 100% -22px,-moz-linear-gradient(center bottom,#fff 85%,#eee 99%);background:url("../images/select2.png") no-repeat 100% -22px,-o-linear-gradient(bottom,#fff 85%,#eee 99%);background:url("../images/select2.png") no-repeat 100% -22px,-ms-linear-gradient(top,#fff 85%,#eee 99%);background:url("../images/select2.png") no-repeat 100% -22px,linear-gradient(top,#fff 85%,#eee 99%);background-position:100% -21px !important;}
+.select2-search input.select2-active{background:#fff url("../images/select2-spinner.gif") no-repeat 100%;background:url("../images/select2-spinner.gif") no-repeat 100%,-webkit-gradient(linear,left bottom,left top,color-stop(.85,#fff),color-stop(.99,#eee));background:url("../images/select2-spinner.gif") no-repeat 100%,-webkit-linear-gradient(center bottom,#fff 85%,#eee 99%);background:url("../images/select2-spinner.gif") no-repeat 100%,-moz-linear-gradient(center bottom,#fff 85%,#eee 99%);background:url("../images/select2-spinner.gif") no-repeat 100%,-o-linear-gradient(bottom,#fff 85%,#eee 99%);background:url("../images/select2-spinner.gif") no-repeat 100%,-ms-linear-gradient(top,#fff 85%,#eee 99%);background:url("../images/select2-spinner.gif") no-repeat 100%,linear-gradient(top,#fff 85%,#eee 99%)}
+.select2-more-results.select2-active{background:#f4f4f4 url("../images/select2-spinner.gif") no-repeat 100%}
+.select2-container-multi .select2-choices li input.select2-active,.select2-container-multi .select2-choices .select2-search-field input.select2-active{background:#fff url("../images/select2-spinner.gif") no-repeat 100% !important}
+.select2-search-choice-close{background:url("../images/select2.png") right top no-repeat}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi){.select2-search input,.select2-search-choice-close,.select2-container .select2-choice abbr,.select2-container .select2-choice .select2-arrow b{background-image:url("../images/select2x2.png") !important}
+}

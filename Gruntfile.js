@@ -39,9 +39,15 @@ module.exports = function (grunt) {
       },
       stylus: {
         files: [
-          'app/stylus/**/*.styl'
+          '<%= yeoman.app %>/stylus/**/*.styl'
         ],
         tasks: ['stylus']
+      },
+      less: {
+        files: [
+          '<%= yeoman.app %>/less/**/*.less'
+        ],
+        tasks: ['less']
       },
       livereload: {
         options: {
@@ -150,10 +156,23 @@ module.exports = function (grunt) {
           paths: ['node_modules/grunt-contrib-stylus/node_modules']
         },
         files: {
-          'app/styles/main.css': ['app/stylus/*.styl']
+          '<%= yeoman.app %>/styles/main.css': ['<%= yeoman.app %>/stylus/*.styl']
         }
       }
     },
+
+    less: {
+        production: {
+            options: {
+                yuicompress: true,
+                paths: ['<%= yeoman.app %>/bower_components/bootstrap/less']
+            },
+            files: {
+                "<%= yeoman.app %>/styles/bootstrap.css": "<%= yeoman.app %>/less/custom-bootstrap.less"
+            }
+        }
+    },
+
     // not used since Uglify task does concat,
     // but still available if needed
     /*concat: {
@@ -251,6 +270,7 @@ module.exports = function (grunt) {
             '.htaccess',
             'bower_components/**/*',
             'images/{,*/}*.{gif,webp}',
+            'translations/*.json',
             'font/*'
           ]
         }, {
@@ -317,6 +337,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'stylus',
+      'less',
       'concurrent:server',
       'connect:livereload',
       'open',
@@ -334,6 +355,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'stylus',
+    'less',
     'useminPrepare',
     'concurrent:dist',
     'concat',

@@ -1,40 +1,76 @@
-<div class="navbar navbar-fixed-top" id="top-navbar" ng-controller="UserCtrl">
-  <div class="navbar-inner">
+<div class="top-border"></div>
 
-      <a ng-href="#{{ $state.href('parent.operations') }}" class="navbar-brand">Finance Butler</a>
-
-      <ul class="nav navbar-nav">
+<div id="sidebar" class="wrap visible-xs" ng-controller="UserCtrl">
+    <div class="text-center userinfo">
+        <h4 ng-bind="user.name" class="username center"></h4>
+        <a href="#" class="thumbnail userpic">
+            <div class="overlay"></div>
+            <div class="settings">
+                <span class="glyphicon glyphicon-cog"></span>
+            </div>
+            <img ng-src="{{user.picture}}">
+        </a>
+    </div>
+    <ul class="nav nav-pills nav-stacked">
         <li ng-class="{ active: $state.includes('parent.operations') }"><a ng-href="#{{ $state.href('parent.operations') }}" translate>Операции</a></li>
         <li ng-class="{ active: $state.includes('parent.plan') }"><a ng-href="#{{ $state.href('parent.plan') }}">Бюджет</a></li>
         <li ng-class="{ active: $state.includes('parent.reports') }"><a ng-href="#{{ $state.href('parent.reports') }}">Отчеты</a></li>
         <li ng-class="{ active: $state.includes('parent.categories') }"><a ng-href="#{{ $state.href('parent.categories') }}">Категории</a></li>
         <li ng-class="{ active: $state.includes('parent.places') }"><a ng-href="#{{ $state.href('parent.places') }}">Места</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon icon-user"></span> <span ng-bind="user.name"></span> <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a><span class="icon icon-gear"></span> Настройки</a></li>
-            <li role="presentation" class="divider"></li>
-            <li><a href="/logout"><span class="icon icon-off"></span> Выход</a></li>
-          </ul>
-        </li>
-      </ul>
-
-      <p class="navbar-text pull-right arrears" ng-show="arrears.length">
-        <span>Долги</span>
-        <span class="navbar-text" ng-repeat="byCurrency in arrears">
-          <strong class="text-danger">{{byCurrency.total | accounting: byCurrency.CurrencyId:currency }}</strong>
-        </span>
-      </p>
-
-      <p class="navbar-text pull-right instock" ng-show="instock.length">
-        <span>В наличии</span>
-        <span ng-repeat="byCurrency in instock">
-          <strong class="text-success">{{byCurrency.total | accounting: byCurrency.CurrencyId:currency }}</strong>
-        </span>
-      </p>
-  </div>
+    </ul>
+    <footer class="footer">
+        <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Выход</a>
+    </footer>
 </div>
 
-<div class="row">
-  <div class="row section" ng-class="$state.current.name | stateClass" ui-view></div>
+<div class="hidden-xs col-sm-2 col-md-2 col-lg-2 sidebar" ng-controller="UserCtrl">
+    <div style="wrap">
+        <div class="text-center userinfo">
+            <h4 ng-bind="user.name" class="username center"></h4>
+            <a href="#" class="thumbnail userpic">
+                <div class="overlay"></div>
+                <div class="settings">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </div>
+                <img ng-src="{{user.picture}}">
+            </a>
+        </div>
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-class="{ active: $state.includes('parent.operations') }"><a ng-href="#{{ $state.href('parent.operations') }}" translate>Операции</a></li>
+            <li ng-class="{ active: $state.includes('parent.plan') }"><a ng-href="#{{ $state.href('parent.plan') }}">Бюджет</a></li>
+            <li ng-class="{ active: $state.includes('parent.reports') }"><a ng-href="#{{ $state.href('parent.reports') }}">Отчеты</a></li>
+            <li ng-class="{ active: $state.includes('parent.categories') }"><a ng-href="#{{ $state.href('parent.categories') }}">Категории</a></li>
+            <li ng-class="{ active: $state.includes('parent.places') }"><a ng-href="#{{ $state.href('parent.places') }}">Места</a></li>
+        </ul>
+        <footer class="footer">
+            <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Выход</a>
+        </footer>
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
+    <header class="header" ng-controller="UserCtrl">
+        <a ng-href="#{{ $state.href('parent.operations') }}" class="logo">Finance Butler</a>
+
+        <span class="navbar-text pull-right visible-md visible-lg">
+            <p class="pull-right arrears" ng-show="arrears.length">
+                <span>Долги</span>
+                <span ng-repeat="byCurrency in arrears">
+                    <span class="label label-danger">{{byCurrency.total | accounting: byCurrency.currencyId:currency }}</span>
+                </span>
+            </p>
+
+            <p class="pull-right instock" ng-show="instock.length">
+                <span>В наличии</span>
+                <span ng-repeat="byCurrency in instock">
+                    <span class="label label-success">{{byCurrency.total | accounting: byCurrency.currencyId:currency }}</span>
+                </span>
+            </p>
+        </span>
+
+        <button type="button" class="btn btn-info visible-xs pull-right sidebar-toggle" pageslide="left" href="#sidebar">
+            <span class="glyphicon glyphicon-th-list"></span>
+        </button>
+    </header>
+    <div class="row section" ng-class="$state.current.name | stateClass" ui-view></div>
 </div>

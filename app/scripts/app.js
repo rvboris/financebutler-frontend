@@ -46,10 +46,10 @@ angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.
 				templateUrl: 'views/places.html',
 			});
 	})
-	.run(['$rootScope', '$state', 'Restangular', function($rootScope, $state, Restangular) {
+	.run(['$window', '$rootScope', '$state', 'Restangular', function($window, $rootScope, $state, Restangular) {
 		$rootScope.$state = $state;
-		$rootScope.$apiKey = window.apiKey || false;
-        $rootScope.$locale = window.locale || 'ru_RU';
+		$rootScope.$apiKey = $window.apiKey || false;
+        $rootScope.$locale = $window.locale || 'ru_RU';
 
 		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 			if (toState.name !== 'auth' && !$rootScope.$apiKey) {
@@ -65,4 +65,8 @@ angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.
     	$rootScope.$on('currency', function(event, args) {
         	$rootScope.$broadcast('currencyUpdate', args);
     	});
+
+        $rootScope.$on('breakpointChange', function(event, breakpoint, oldClass) {
+
+        });
 	}]);

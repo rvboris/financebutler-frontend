@@ -4,7 +4,7 @@ angular.module('filters', [])
 			return input.replace('.', '-');
 		};
 	})
-	.filter('currencyTitleShortById', function() {
+	.filter('currencyCodeById', function() {
 		return function(currencyId, currencyList) {
 			if (!currencyList || !currencyId) {
 				return '';
@@ -12,11 +12,11 @@ angular.module('filters', [])
 
 			return _.find(currencyList, function(currency) {
 				return currency.id === currencyId;
-			}).titleShort;
+			}).code;
 		};
 	})
 	.filter('accounting', ['$filter', function($filter) {
 		return function(number, currencyId, currencyList) {
-			return accounting.formatMoney(number, $filter('currencyTitleShortById')(currencyId, currencyList), 2, ' ', ',', '%v %s');
+			return accounting.formatMoney(number, $filter('currencyCodeById')(currencyId, currencyList), 2, ' ', ',', '%v %s');
 		};
 	}]);

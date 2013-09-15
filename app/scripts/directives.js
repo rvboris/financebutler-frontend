@@ -16,4 +16,99 @@ angular.module('directives', [])
 				});
 			}
 		};
-	});
+	})
+     .directive('breakpoint', ['$window', '$rootScope', function($window, $rootScope) {
+        return {
+            restrict: "A",
+            link: function(scope, element, attr) {
+                scope.breakpoint = {
+                    class: '',
+                    windowSize: $window.innerWidth
+                };
+
+                var breakpoints = (scope.$eval(attr.breakpoint));
+
+                angular.element($window).bind('resize', function() {
+                    scope.breakpoint.windowSize = $window.innerWidth;
+
+                    if (!scope.$$phase) {
+                        scope.$apply();
+                    }
+                });
+
+                scope.$watch('breakpoint.windowSize', function(windowWidth, oldValue) {
+                    var setClass = breakpoints[Object.keys(breakpoints)[0]];
+
+                    for (var breakpoint in breakpoints) {
+                        if (breakpoint < windowWidth) setClass = breakpoints[breakpoint];
+                        element.removeClass(breakpoints[breakpoint]);
+                    }
+
+                    element.addClass(setClass);
+                    scope.breakpoint.class = setClass;
+
+                    if (!scope.$$phase) {
+                        scope.$apply();
+                    }
+                });
+
+                scope.$watch('breakpoint.class', function(newClass, oldClass) {
+                    if (newClass === oldClass) {
+                        return;
+                    }
+
+                    $rootScope.$broadcast('breakpointChange', scope.breakpoint, oldClass);
+                });
+            }
+        }
+    }])
+    .directive('pageslide', function() {
+        var defaults = {};
+
+        return {
+            restrict: "A",
+            replace: false,
+            transclude: false,
+            scope: {},
+            link: function($scope, el, attrs) {
+                var param = {};
+                param.side = attrs.pageslide || 'right';
+                param.speed = attrs.psSpeed || '0.5';
+
+                var css_class = 'ng-pageslide ps-hidden';
+                css_class += ' ps-' + param.side;
+
+                var content = document.getElementById(attrs.href.substr(1));
+                var slider = document.createElement('div');
+                slider.id = "ng-pageslide";
+                slider.className = css_class;
+
+                document.body.appendChild(slider);
+                slider.appendChild(content);
+
+                /*if (param.speed) {
+                    slider.style.transitionDuration = param.speed + 's';
+                    slider.style.webkitTransitionDuration = param.speed + 's';
+                }*/
+
+                el[0].onclick = function(e) {
+                    e.preventDefault();
+
+                    if (/ps-hidden/.exec(slider.className)) {
+                        content.style.display = 'none';
+                        slider.className = slider.className.replace(' ps-hidden', '');
+                        slider.className += ' ps-shown';
+
+                        setTimeout(function() {
+                            content.style.display = 'block';
+                        }, (param.speed * 1000));
+
+                    } else if (/ps-shown/.exec(slider.className)) {
+                        content.style.display = 'none';
+                        slider.className = slider.className.replace(' ps-shown', '');
+                        slider.className += ' ps-hidden';
+                    }
+                };
+            }
+        };
+    });

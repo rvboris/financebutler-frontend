@@ -1,5 +1,21 @@
 clouds = #ecf0f1
 nephritis = #27ae60
+midnight = #2c3e50
+asbestos = #7f8c8d
+
+screen-xs = 480px
+screen-sm = 768px
+screen-md = 992px
+screen-lg = 1200px
+
+screen-xs-max = screen-sm - 1px;
+screen-sm-max = screen-md - 1px;
+screen-md-max = screen-lg - 1px;
+
+screen-xs-query = "screen and (max-width: " + screen-xs-max + ")"
+screen-sm-query = "screen and (min-width: " + screen-sm + ") and (max-width: " + screen-sm-max + ")"
+screen-md-query = "screen and (min-width: " + screen-md + ") and (max-width: " + screen-md-max + ")"
+screen-lg-query = "screen and (min-width: " + screen-lg + ")"
 
 @css {
     @font-face {
@@ -12,52 +28,116 @@ nephritis = #27ae60
     }
 }
 
-body
-  padding 55px
-  background clouds
-
-a
-  color #777
-  &:hover, &.active
-    color #333
-
-#top-navbar
-  background clouds
-  border-bottom 3px solid nephritis
-  .arrears, .instock
-    margin-right 10px
-    strong
-      padding-right 3px
-  .navbar-brand
-    background url(../img/logo.png) no-repeat 15px center
-    padding-left 75px
-    max-width none
-    font-family harlow_solid_italicitalic
-    font-size 21px
-  .navbar-text
-    color #777
-  .navbar-nav
-    & > .active
-      & > a, & a
-        color nephritis
-        background clouds
-  .nav > li > a:hover, .nav > li > a:focus
-    background clouds
-  .nav a .caret
-    border-top-color #777
-    border-bottom-color #777
-  .nav a:hover .caret
-    border-top-color #333
-    border-bottom-color #333
-
-.dropdown-menu
-  background #333
-  border-radius 0
-  & > li > a
-    color clouds
-    &:hover
-      background nephritis
-
-
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
   display none
+
+body
+  background clouds
+
+.ng-pageslide
+  display none
+  overflow hidden
+  &.ps-hidden
+    padding 0
+
+.sidebar
+  position fixed
+  top 0
+  bottom 0
+
+.top-border
+  position fixed
+  top 0
+  left 0
+  right 0
+  height 55px
+  border-bottom 5px solid #E6EBEC
+
+.sidebar, .ng-pageslide
+  background midnight
+  padding 20px
+  .wrap
+    height 100%
+    width 100%
+    position relative
+
+  .userinfo
+    margin-bottom 15px
+
+  .username
+    color clouds
+
+  .userpic
+    position relative
+    border-radius 50%
+    img
+      border-radius 50%
+    .overlay, .settings
+      position absolute
+      top 0
+      bottom 0
+      left 0
+      right 0
+      border-radius 50%
+      display none
+    .overlay
+      background #000
+      opacity 0.5
+    .settings
+      color clouds
+      font-size 330%
+      span
+        padding 35%
+        color clouds
+    &:hover
+      .overlay, .settings
+        display block
+
+  .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus
+    background nephritis
+    color clouds
+
+  .nav>li>a:hover, .nav>li>a:focus
+    background transparent
+    border 1px dashed clouds
+    padding 9px 14px
+
+  .nav>li>a
+    color clouds
+
+  .footer
+    position absolute
+    bottom 20px
+    left 20px
+    right 20px
+    a
+      color asbestos
+      &:hover
+        color #e67e22
+        text-decoration none
+
+.header
+  margin-bottom 15px
+  .logo
+    background url('../images/logo.png') no-repeat left center
+    font-family 'harlow_solid_italicitalic'
+    font-weight lighter
+    padding-left 80px
+    font-size 35px
+    color #ADB1B7
+    display inline-block
+    &:hover
+      text-decoration none
+      color #999EA6
+  .instock
+    margin-right 10px
+  .sidebar-toggle
+    margin 8px
+
+@media screen-xs-query
+  .ng-pageslide
+    display block
+
+@media screen-lg-query
+  .sidebar
+    max-width 205px
