@@ -1,19 +1,19 @@
 <div class="col-lg-4" ng-controller="OperationsCtrl">
-    <button class="btn btn-block btn-danger add-operation" ng-class="{ disabled: !accounts.length }"><i class="icon icon-plus"></i> Внести расход</button>
+    <button class="btn btn-block btn-danger add-operation" ng-class="{ disabled: !accounts.length }"><span class="icon icon-plus"></span> Внести расход</button>
     <div class="panel panel-danger">
         <div class="panel-heading">Расходы</div>
     </div>
 </div>
 
 <div class="col-lg-4" ng-controller="OperationsCtrl">
-    <button class="btn btn-block btn-success add-operation" ng-class="{ disabled: !accounts.length }"><i class="icon icon-plus"></i> Внести доход</button>
+    <button class="btn btn-block btn-success add-operation" ng-class="{ disabled: !accounts.length }"><span class="icon icon-plus"></span> Внести доход</button>
     <div class="panel panel-success">
         <div class="panel-heading">Доходы</div>
     </div>
 </div>
 
 <div class="col-lg-4" ng-controller="AccountCtrl">
-    <button class="btn btn-block btn-primary add-account" ng-click="accountDialogOpen('new')"><i class="icon icon-plus"></i> Добавить счет</button>
+    <button class="btn btn-block btn-primary add-account" ng-click="accountDialogOpen('new')"><span class="icon icon-plus"></span> Добавить счет</button>
     <div class="panel panel-primary">
         <div class="panel-heading">Счета</div>
         <h4 ng-show="!accounts.length" class="text-center">Вы еще не добавили ни одного счета</h4>
@@ -46,7 +46,7 @@
                     <h4 class="modal-title">{{activeMode === 'new' ? 'Добавление счета': 'Редактирование счета'}}</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal add-account-form" name="accountForm" novalidate>
+                    <form class="form-horizontal account-form" name="accountForm" novalidate>
                         <div class="form-group" ng-class="{ 'has-error': accountForm.name.$invalid, 'has-success': !accountForm.name.$invalid }">
                             <div class="row">
                                 <label class="col-lg-4 control-label">Название *</label>
@@ -79,7 +79,7 @@
                             <div class="row">
                                 <label class="col-lg-4 control-label">Валюта *</label>
                                 <div class="col-lg-8">
-                                    <select ui-select2 ng-model="activeAccount.currency" name="currency" data-placeholder="Выберите валюту счета" required>
+                                    <select ui-select2="currencySelectOptions" ng-model="activeAccount.currency" name="currency" data-placeholder="Выберите валюту счета" required>
                                         <option value=""></option>
                                         <option ng-repeat="cur in currency" value="{{$index}}">{{cur.name}} ({{cur.code}})</option>
                                     </select>
@@ -91,8 +91,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" ng-click="accountDialogSave()" ng-disabled="accountForm.$invalid"><i class="icon icon-ok"></i> {{activeMode === 'new' ? 'Добавить счет': 'Сохранить изменения'}}</button>
-                    <button class="btn btn-warning cancel" ng-click="accountDialogClose()"><i class="icon icon-remove"></i> Отмена</button>
+                    <button class="btn btn-success" ng-click="accountDialogSave()" ng-disabled="accountForm.$invalid"><span class="icon icon-ok"></span> {{activeMode === 'new' ? 'Добавить счет': 'Сохранить изменения'}}</button>
+                    <button class="btn btn-warning cancel" ng-click="accountDialogClose()"><span class="icon icon-remove"></span> Отмена</button>
                 </div>
             </div>
         </div>

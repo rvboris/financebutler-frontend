@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.state', 'pascalprecht.translate'])
+angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.state', 'pascalprecht.translate', 'chieffancypants.loadingBar'])
 	.config(function($stateProvider, $urlRouterProvider, $translateProvider) {
         $translateProvider.useStaticFilesLoader({
             prefix: 'translations/locale-',

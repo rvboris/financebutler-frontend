@@ -1,7 +1,61 @@
 angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstrap.dropdownToggle', 'ui.select2'])
-	.controller('UserCtrl', ['$rootScope', '$scope', '$log', 'Restangular', function($rootScope, $scope, $log, Restangular) {
+	.controller('UserCtrl', ['$rootScope', '$scope', '$log', '$q', 'Restangular', function($rootScope, $scope, $log, $q, Restangular) {
+        Restangular.setBaseUrl(['api', $rootScope.$apiKey].join('/'));
+
+        var baseLocale = Restangular.all('locale');
+        var baseUser = Restangular.all('user');
+
+        $scope.locales = baseLocale.getList();
+        $scope.user = baseUser.getList();
+
 		$scope.instock = [];
 		$scope.arrears = [];
+
+        $scope.activeUser = {
+            name: '',
+            email: '',
+            locale: ''
+        };
+
+        $scope.settingsDialog = false;
+
+        var localeFormat = function format(locale) {
+            if (!locale.id) {
+                return locale.text;
+            }
+
+            return '<img class="flag" src="images/flags/' + locale.id.split('_')[1].toLowerCase() + '.png">' + locale.text;
+        };
+
+        $scope.localeSelectOptions = {
+            formatResult: localeFormat,
+            formatSelection: localeFormat,
+            escapeMarkup: function(m) { return m; },
+            width: '100%'
+        };
+
+        $scope.settingsDialogOpen = function() {
+            $q.all([$scope.user, $scope.locales]).then(function(results) {
+                var user = results[0];
+                var locales = results[1];
+
+                $scope.activeUser.name = user.name;
+                $scope.activeUser.email = user.email;
+                $scope.activeUser.locale = _.find(locales, function(locale) {
+                    return locale.code === user.locale;
+                }).code;
+
+                $scope.settingsDialog = true;
+            });
+        };
+
+        $scope.settingsDialogClose = function() {
+            $scope.settingsDialog = false;
+        };
+
+        $scope.settingsDialogSave = function() {
+            $scope.settingsDialogClose();
+        };
 
 		$scope.$on('accountUpdate', function(event, args) {
 			_.each(args, function(val, key) {
@@ -9,13 +63,13 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 					$scope.instock.length = 0;
 
 					for (var currencyId in val) {
-						$scope.instock.push({ currencyId: parseInt(currencyId), total: val[currencyId] });
+						$scope.instock.push({ currencyId: _.parseInt(currencyId), total: val[currencyId] });
 					}
 				} else if (key === 'arrears') {
 					$scope.arrears.length = 0;
 
 					for (var currencyId in val) {
-						$scope.arrears.push({ currencyId: parseInt(currencyId), total: val[currencyId] });
+						$scope.arrears.push({ currencyId: _.parseInt(currencyId), total: val[currencyId] });
 					}
 				} else if ($scope[key]) {
 					$scope[key] = val;
@@ -27,21 +81,14 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 			$scope.currency = args;
     	});
 
-		Restangular.setBaseUrl(['api', $rootScope.$apiKey].join('/'));
-
-		Restangular
-			.all('user')
-			.getList()
-			.then(function(user) {
-				$scope.user = user;
-			}, function(err) {
-				if (err.status === 401) {
-					$rootScope.$state.transitionTo('auth');
-				} else {
-					$rootScope.$state.transitionTo('error', { code: err.status });
-					$log.error(err);
-				}
-			});
+		$scope.user.then(null, function(err) {
+			if (err.status === 401) {
+				$rootScope.$state.transitionTo('auth');
+			} else {
+				$rootScope.$state.transitionTo('error', { code: err.status });
+				$log.error(err);
+			}
+		});
 	}])
 	.controller('AccountCtrl', ['$scope', '$log', '$q', 'Restangular', function($scope, $log, $q, Restangular) {
 		var baseAccounts = Restangular.all('account');
@@ -49,6 +96,10 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 
 		$scope.accounts = baseAccounts.getList();
 		$scope.currency = baseCurrency.getList();
+
+        $scope.currencySelectOptions = {
+            width: '100%'
+        };
 
 		$scope.defaultCurrencyId = null;
         $scope.activeAccountId = null;

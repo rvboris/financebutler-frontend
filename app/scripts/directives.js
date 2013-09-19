@@ -1,4 +1,16 @@
 angular.module('directives', [])
+    .directive('subview', function($http, $templateCache, $compile, $parse) {
+        return {
+            restrict: 'E',
+            link: function(scope, elm, attrs) {
+                $http.get('views/' + $parse(attrs.data)(scope) + '.html', {
+                    cache: $templateCache
+                }).success(function(tplContent) {
+                    elm.replaceWith($compile(tplContent)(scope));
+                });
+            }
+        }
+    })
 	.directive('smartFloat', function() {
 		var currencyRegexp = /^[-]?(0|[1-9][0-9]*)((\.|,)[0-9]+)?([eE][+-]?[0-9]+)?$/;
 
