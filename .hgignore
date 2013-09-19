@@ -3,3 +3,4 @@ bower_components
 config.js
 public/
 tmp/
+app/styles/main.css
