@@ -1,24 +1,24 @@
 <div class="text-center userinfo">
-    <h4 ng-bind="user.name" class="username center"></h4>
+    <h4 ng-bind="users[0].name" class="username center"></h4>
     <button type="button" class="thumbnail userpic" ng-click="settingsDialogOpen()">
         <div class="overlay"></div>
         <div class="settings">
             <span class="glyphicon glyphicon-cog"></span>
         </div>
-        <img ng-src="{{user.picture}}">
+        <img ng-src="{{users[0].picture}}">
     </button>
 </div>
 
 <ul class="nav nav-pills nav-stacked">
-    <li ng-class="{ active: $state.includes('parent.operations') }"><a ng-href="#{{ $state.href('parent.operations') }}"><span class="icon icon-exchange"> </span><span translate>Операции</span></a></li>
-    <li ng-class="{ active: $state.includes('parent.plan') }"><a ng-href="#{{ $state.href('parent.plan') }}"><span class="icon icon-calendar"> </span><span translate>Бюджет</span></a></li>
-    <li ng-class="{ active: $state.includes('parent.reports') }"><a ng-href="#{{ $state.href('parent.reports') }}"><span class="icon icon-bar-chart"> </span><span translate>Отчеты</span></a></li>
-    <li ng-class="{ active: $state.includes('parent.categories') }"><a ng-href="#{{ $state.href('parent.categories') }}"><span class="icon icon-list-ul"> </span><span translate>Категории</span></a></li>
-    <li ng-class="{ active: $state.includes('parent.places') }"><a ng-href="#{{ $state.href('parent.places') }}"><span class="icon icon-globe"> </span><span translate>Места</span></a></li>
+    <li ng-class="{ active: $state.includes('parent.operations') }"><a ng-href="#{{ $state.href('parent.operations') }}"><span class="icon icon-exchange"></span> <span translate>Операции</span></a></li>
+    <li ng-class="{ active: $state.includes('parent.plan') }"><a ng-href="#{{ $state.href('parent.plan') }}"><span class="icon icon-calendar"></span> <span translate>Бюджет</span></a></li>
+    <li ng-class="{ active: $state.includes('parent.reports') }"><a ng-href="#{{ $state.href('parent.reports') }}"><span class="icon icon-bar-chart"></span> <span translate>Отчеты</span></a></li>
+    <li ng-class="{ active: $state.includes('parent.categories') }"><a ng-href="#{{ $state.href('parent.categories') }}"><span class="icon icon-list-ul"></span> <span translate>Категории</span></a></li>
+    <li ng-class="{ active: $state.includes('parent.places') }"><a ng-href="#{{ $state.href('parent.places') }}"><span class="icon icon-globe"></span> <span translate>Места</span></a></li>
 </ul>
 
 <footer class="footer">
-    <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Выход</a>
+    <a href="/logout"><span class="glyphicon glyphicon-log-out"></span> <span translate>Выход</span></a>
 </footer>
 
 <div class="modal fade" modal="settingsDialog">
@@ -26,20 +26,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="settingsDialogClose()">&times;</button>
-                <h4 class="modal-title">Настройки</h4>
+                <h4 class="modal-title" translate>Настройки</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal settings-form" name="settingsForm" novalidate>
                     <div class="form-group" ng-class="{ 'has-error': settingsForm.name.$invalid, 'has-success': !settingsForm.name.$invalid }">
                         <div class="row">
-                            <label class="col-lg-4 control-label">Ваше имя *</label>
+                            <label class="col-lg-4 control-label" translate>Ваше имя *</label>
                             <div class="col-lg-6">
-                                <input type="text" class="form-control" placeholder="имя" name="name" ng-model="activeUser.name" required>
+                                <input type="text" class="form-control" placeholder="{{ 'имя' | translate }}" name="name" ng-model="activeUser.name" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-8 col-lg-offset-4">
-                                <span ng-show="settingsForm.name.$error.required" class="help-block">Обязательно для заполнения</span>
+                                <span ng-show="settingsForm.name.$error.required" class="help-block" translate>Обязательно для заполнения</span>
                             </div>
                         </div>
                     </div>
@@ -47,18 +47,18 @@
                         <div class="row">
                             <label class="col-lg-4 control-label">Email *</label>
                             <div class="col-lg-6">
-                                <input type="text" class="form-control" placeholder="email адрес" name="email" ng-model="activeUser.email" required>
+                                <input type="text" class="form-control" placeholder="{{ 'email адрес' | translate }}" name="email" ng-model="activeUser.email" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-8 col-lg-offset-4">
-                                <span ng-show="settingsForm.email.$error.required" class="help-block">Обязательно для заполнения</span>
+                                <span ng-show="settingsForm.email.$error.required" class="help-block" translate>Обязательно для заполнения</span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group" ng-class="{ 'has-error': settingsForm.locale.$invalid, 'has-success': !settingsForm.locale.$invalid }">
                         <div class="row">
-                            <label class="col-lg-4 control-label">Язык *</label>
+                            <label class="col-lg-4 control-label" translate>Язык *</label>
                             <div class="col-lg-8">
                                 <select ui-select2="localeSelectOptions" ng-model="activeUser.locale" name="locale" data-placeholder="Выберите язык" required>
                                     <option ng-repeat="locale in locales" value="{{locale.code}}">{{locale.name}}</option>
@@ -67,12 +67,13 @@
                         </div>
                     </div>
 
-                    <div class="alert alert-info">Поля отмеченные звездочкой обязательны для заполнения.</div>
+                    <div class="alert alert-info" translate>Поля отмеченные звездочкой обязательны для заполнения.</div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" ng-disabled="settingsForm.$invalid" ng-click="settingsDialogSave()"><span class="icon icon-ok"></span> Сохранить</button>
-                <button class="btn btn-warning cancel" ng-click="settingsDialogClose()"><span class="icon icon-remove"></span> Отмена</button>
+                <button type="button" class="btn btn-danger pull-left" ng-click="deleteUser()" translate>Удалить учетную запись</button>
+                <button type="button" class="btn btn-success" ng-disabled="settingsForm.$invalid" ng-click="settingsDialogSave()"><span class="icon icon-ok"></span> <span translate>Сохранить</span></button>
+                <button type="button" class="btn btn-warning cancel" ng-click="settingsDialogClose()"><span class="icon icon-remove"></span> <span translate>Отмена</span></button>
             </div>
         </div>
     </div>

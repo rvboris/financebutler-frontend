@@ -1,27 +1,27 @@
 <div class="col-lg-4" ng-controller="OperationsCtrl">
-    <button class="btn btn-block btn-danger add-operation" ng-class="{ disabled: !accounts.length }"><span class="icon icon-plus"></span> Внести расход</button>
+    <button class="btn btn-block btn-danger add-operation" ng-class="{ disabled: !accounts.length }"><span class="icon icon-plus"></span> <span translate>Внести расход</span></button>
     <div class="panel panel-danger">
-        <div class="panel-heading">Расходы</div>
+        <div class="panel-heading" translate>Расходы</div>
     </div>
 </div>
 
 <div class="col-lg-4" ng-controller="OperationsCtrl">
-    <button class="btn btn-block btn-success add-operation" ng-class="{ disabled: !accounts.length }"><span class="icon icon-plus"></span> Внести доход</button>
+    <button class="btn btn-block btn-success add-operation" ng-class="{ disabled: !accounts.length }"><span class="icon icon-plus"></span> <span translate>Внести доход</span></button>
     <div class="panel panel-success">
-        <div class="panel-heading">Доходы</div>
+        <div class="panel-heading" translate>Доходы</div>
     </div>
 </div>
 
 <div class="col-lg-4" ng-controller="AccountCtrl">
-    <button class="btn btn-block btn-primary add-account" ng-click="accountDialogOpen('new')"><span class="icon icon-plus"></span> Добавить счет</button>
+    <button type="button" class="btn btn-block btn-primary add-account" ng-click="accountDialogOpen('new')"><span class="icon icon-plus"></span> <span translate>Добавить счет</span></button>
     <div class="panel panel-primary">
-        <div class="panel-heading">Счета</div>
-        <h4 ng-show="!accounts.length" class="text-center">Вы еще не добавили ни одного счета</h4>
+        <div class="panel-heading" translate>Счета</div>
+        <h4 ng-show="!accounts.length" class="text-center" translate>Вы еще не добавили ни одного счета</h4>
         <table class="table accounts" ng-show="accounts.length">
             <thead>
                 <tr>
-                    <th>Название</th>
-                    <th>Остаток</th>
+                    <th translate>Название</th>
+                    <th translate>Остаток</th>
                     <th></th>
                 </tr>
             </thead>
@@ -43,56 +43,56 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="accountDialogClose()">&times;</button>
-                    <h4 class="modal-title">{{activeMode === 'new' ? 'Добавление счета': 'Редактирование счета'}}</h4>
+                    <h4 class="modal-title" translate>{{activeMode === 'new' ? 'Добавление счета': 'Редактирование счета'}}</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal account-form" name="accountForm" novalidate>
                         <div class="form-group" ng-class="{ 'has-error': accountForm.name.$invalid, 'has-success': !accountForm.name.$invalid }">
                             <div class="row">
-                                <label class="col-lg-4 control-label">Название *</label>
+                                <label class="col-lg-4 control-label" translate>Название *</label>
                                 <div class="col-lg-6">
-                                    <input type="text" class="form-control" placeholder="название счета" name="name" ng-model="activeAccount.name" required>
+                                    <input type="text" class="form-control" placeholder="{{ 'название счета' | translate }}" name="name" ng-model="activeAccount.name" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-8 col-lg-offset-4">
-                                    <span ng-show="accountForm.name.$error.required" class="help-block">Обязательно для заполнения</span>
+                                    <span ng-show="accountForm.name.$error.required" class="help-block" translate>Обязательно для заполнения</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group" ng-class="{ 'has-error': accountForm.startValue.$invalid, 'has-success': !accountForm.startValue.$invalid }">
                             <div class="row">
-                                <label class="col-lg-4 control-label">Текущий остаток *</label>
+                                <label class="col-lg-4 control-label" translate>Текущий остаток *</label>
                                 <div class="col-lg-6">
-                                    <input type="text" class="form-control" placeholder="остаток" name="startValue" ng-model="activeAccount.startValue" smart-float required>
+                                    <input type="text" class="form-control" placeholder="{{ 'остаток' | translate }}" name="startValue" ng-model="activeAccount.startValue" smart-float required>
                                 </div>
-                                <div class="col-lg-2 currency-title">{{currency[activeAccount.currency].code}}</div>
+                                <div class="col-lg-2 currency-title">{{activeAccount.currency | currencyCodeById: currency}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-8 col-lg-offset-4">
-                                    <span ng-show="accountForm.startValue.$error.float" class="help-block">Поле может содержать только цифры</span>
-                                    <span ng-show="accountForm.startValue.$error.required" class="help-block">Обязательно для заполнения</span>
+                                    <span ng-show="accountForm.startValue.$error.float" class="help-block" translate>Поле может содержать только цифры</span>
+                                    <span ng-show="accountForm.startValue.$error.required" class="help-block" translate>Обязательно для заполнения</span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group" ng-class="{ 'has-error': accountForm.currency.$invalid, 'has-success': !accountForm.currency.$invalid }">
                             <div class="row">
-                                <label class="col-lg-4 control-label">Валюта *</label>
+                                <label class="col-lg-4 control-label" translate>Валюта *</label>
                                 <div class="col-lg-8">
                                     <select ui-select2="currencySelectOptions" ng-model="activeAccount.currency" name="currency" data-placeholder="Выберите валюту счета" required>
                                         <option value=""></option>
-                                        <option ng-repeat="cur in currency" value="{{$index}}">{{cur.name}} ({{cur.code}})</option>
+                                        <option ng-repeat="cur in currency" value="{{cur.id}}">{{cur.name}} ({{cur.code}})</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="alert alert-info">Поля отмеченные звездочкой обязательны для заполнения.</div>
+                        <div class="alert alert-info" translate>Поля отмеченные звездочкой обязательны для заполнения.</div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" ng-click="accountDialogSave()" ng-disabled="accountForm.$invalid"><span class="icon icon-ok"></span> {{activeMode === 'new' ? 'Добавить счет': 'Сохранить изменения'}}</button>
-                    <button class="btn btn-warning cancel" ng-click="accountDialogClose()"><span class="icon icon-remove"></span> Отмена</button>
+                    <button type="button" class="btn btn-success" ng-click="accountDialogSave()" ng-disabled="accountForm.$invalid"><span class="icon icon-ok"></span> <span translate>{{activeMode === 'new' ? 'Добавить счет': 'Сохранить изменения'}}</span></button>
+                    <button type="button" class="btn btn-warning cancel" ng-click="accountDialogClose()"><span class="icon icon-remove"></span> <span translate>Отмена</span></button>
                 </div>
             </div>
         </div>
@@ -103,14 +103,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="removeAccountDialogClose()">&times;</button>
-                    <h4 class="modal-title">Удаление счета</h4>
+                    <h4 class="modal-title" translate>Удаление счета</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Вы уверены что хотите удалить счет и связанные с ним операции?</p>
+                    <p translate>Вы уверены что хотите удалить счет и связанные с ним операции?</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" ng-click="removeAccountDialogSave()"><span class="glyphicon glyphicon-trash"></span> Удалить счет</button>
-                    <button class="btn btn-warning cancel" ng-click="removeAccountDialogClose()"><span class="icon icon-remove"></span> Отмена</button>
+                    <button type="button" class="btn btn-success" ng-click="removeAccountDialogSave()"><span class="glyphicon glyphicon-trash"></span> <span translate>Удалить счет</span></button>
+                    <button type="button" class="btn btn-warning cancel" ng-click="removeAccountDialogClose()"><span class="icon icon-remove"></span> <span translate>Отмена</span></button>
                 </div>
             </div>
         </div>

@@ -6,30 +6,30 @@ angular.module('directives', [])
                 $http.get('views/' + $parse(attrs.data)(scope) + '.html', {
                     cache: $templateCache
                 }).success(function(tplContent) {
-                    elm.replaceWith($compile(tplContent)(scope));
+                        elm.replaceWith($compile(tplContent)(scope));
+                    });
+            }
+        };
+    })
+    .directive('smartFloat', function() {
+        var currencyRegexp = /^[-]?(0|[1-9][0-9]*)((\.|,)[0-9]+)?([eE][+-]?[0-9]+)?$/;
+
+        return {
+            require: 'ngModel',
+            link: function(scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function(viewValue) {
+                    if (currencyRegexp.test(viewValue)) {
+                        ctrl.$setValidity('float', true);
+                        return parseFloat(viewValue.replace(',', '.'));
+                    } else {
+                        ctrl.$setValidity('float', false);
+                        return undefined;
+                    }
                 });
             }
-        }
+        };
     })
-	.directive('smartFloat', function() {
-		var currencyRegexp = /^[-]?(0|[1-9][0-9]*)((\.|,)[0-9]+)?([eE][+-]?[0-9]+)?$/;
-
-		return {
-			require: 'ngModel',
-			link: function(scope, elm, attrs, ctrl) {
-				ctrl.$parsers.unshift(function(viewValue) {
-					if (currencyRegexp.test(viewValue)) {
-						ctrl.$setValidity('float', true);
-						return parseFloat(viewValue.replace(',', '.'));
-					} else {
-						ctrl.$setValidity('float', false);
-						return undefined;
-					}
-				});
-			}
-		};
-	})
-     .directive('breakpoint', ['$window', '$rootScope', function($window, $rootScope) {
+    .directive('breakpoint', ['$window', '$rootScope', function($window, $rootScope) {
         return {
             restrict: "A",
             link: function(scope, element, attr) {
@@ -48,12 +48,16 @@ angular.module('directives', [])
                     }
                 });
 
-                scope.$watch('breakpoint.windowSize', function(windowWidth, oldValue) {
+                scope.$watch('breakpoint.windowSize', function(windowWidth) {
                     var setClass = breakpoints[Object.keys(breakpoints)[0]];
 
                     for (var breakpoint in breakpoints) {
-                        if (breakpoint < windowWidth) setClass = breakpoints[breakpoint];
-                        element.removeClass(breakpoints[breakpoint]);
+                        if (breakpoints.hasOwnProperty(breakpoint)) {
+                            if (breakpoint < windowWidth) {
+                                setClass = breakpoints[breakpoint];
+                            }
+                            element.removeClass(breakpoints[breakpoint]);
+                        }
                     }
 
                     element.addClass(setClass);
@@ -72,11 +76,9 @@ angular.module('directives', [])
                     $rootScope.$broadcast('breakpointChange', scope.breakpoint, oldClass);
                 });
             }
-        }
+        };
     }])
     .directive('pageslide', function() {
-        var defaults = {};
-
         return {
             restrict: "A",
             replace: false,
@@ -97,11 +99,6 @@ angular.module('directives', [])
 
                 document.body.appendChild(slider);
                 slider.appendChild(content);
-
-                /*if (param.speed) {
-                    slider.style.transitionDuration = param.speed + 's';
-                    slider.style.webkitTransitionDuration = param.speed + 's';
-                }*/
 
                 el[0].onclick = function(e) {
                     e.preventDefault();
