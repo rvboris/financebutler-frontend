@@ -1,1 +1,17 @@
-<h1>categories</h1>
+<script type="text/ng-template" id="category-item">
+    {{category.name}}
+    <ul>
+        <li ng-repeat="category in category.children" ng-include="'category-item'"></li>
+    </ul>
+</script>
+
+<div class="col-lg-12" ng-controller="CategoryCtrl">
+    <ul>
+        <li ng-repeat="category in categoriesTree" ng-include="'category-item'"></li>
+    </ul>
+</div>
+
+
+
+
+

@@ -179,7 +179,7 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 
                     $scope.activeAccount.name = accountToPopulate.name;
                     $scope.activeAccount.startValue = accountToPopulate.startValue;
-                    $scope.activeAccount.currency = _.find(currencyList, function(currency) {
+                    $scope.activeAccount.currency = _.find(currencyList,function(currency) {
                         return currency.id === accountToPopulate.currencyId;
                     }).id;
 
@@ -291,6 +291,20 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
                     $scope[key] = val;
                 }
             });
+        });
+    }])
+    .controller('CategoryCtrl', ['$scope', '$filter', 'Restangular', function($scope, $filter, Restangular) {
+        var baseCategory = Restangular.all('category');
+
+        $scope.categories = baseCategory.getList();
+        $scope.categoriesTree = [];
+
+        $scope.$watch('categories', function(categories) {
+            if (!categories) {
+                return;
+            }
+
+            $scope.categoriesTree = $filter('categoryFlatToTree')(categories);
         });
     }])
     .controller('ErrorCtrl', ['$scope', '$state', function($scope, $state) {
