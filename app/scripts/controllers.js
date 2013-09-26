@@ -129,7 +129,9 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
             }
 
             $translate.uses(users[0].locale.code);
+
             $scope.$emit('currency', true);
+            $scope.$emit('category', true);
         });
     }])
     .controller('AccountCtrl', ['$scope', '$log', '$q', 'Restangular', function($scope, $log, $q, Restangular) {
@@ -299,6 +301,14 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
         $scope.categories = baseCategory.getList();
         $scope.categoriesTree = [];
 
+        $scope.$on('categoryUpdate', function(event, args) {
+            if (args !== true) {
+                return;
+            }
+
+            $scope.categories = baseCategory.getList();
+        });
+
         $scope.$watch('categories', function(categories) {
             if (!categories) {
                 return;
@@ -306,6 +316,38 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 
             $scope.categoriesTree = $filter('categoryFlatToTree')(categories);
         });
+
+        $scope.typeTitleByType = function(type) {
+            if (type === 'any') {
+                return $filter('translate')('Все операции');
+            }
+
+            if (type === 'out') {
+                return $filter('translate')('Расход');
+            }
+
+            if (type === 'in') {
+                return $filter('translate')('Доход');
+            }
+
+            return '';
+        };
+
+        $scope.classByType = function(type) {
+            if (type === 'any') {
+                return 'label-default';
+            }
+
+            if (type === 'out') {
+                return 'label-primary';
+            }
+
+            if (type === 'in') {
+                return 'label-success';
+            }
+
+            return '';
+        };
     }])
     .controller('ErrorCtrl', ['$scope', '$state', function($scope, $state) {
         $scope.errorCode = $state.params.code;

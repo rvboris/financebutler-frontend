@@ -1,14 +1,28 @@
 <script type="text/ng-template" id="category-item">
-    {{category.name}}
+    <div class="btn-group">
+        <button type="button" class="btn btn-default toggle" ng-show="{{category.children.length > 0}}"><span class="icon icon-plus"></span></button>
+        <button type="button" class="btn btn-default">{{category.name}}</button>
+        <button type="button" class="btn btn-default" ng-class="{ 'disabled': !category.editable  }"><span class="icon icon-edit"></span></button>
+        <button type="button" class="btn btn-default" ng-class="{ 'disabled': !category.editable  }"><span class="glyphicon glyphicon-trash"></span></button>
+    </div>
+
+    <span class="label {{classByType(category.type)}}" translate>{{typeTitleByType(category.type)}}</span>
+
     <ul>
         <li ng-repeat="category in category.children" ng-include="'category-item'"></li>
     </ul>
 </script>
 
-<div class="col-lg-12" ng-controller="CategoryCtrl">
-    <ul>
-        <li ng-repeat="category in categoriesTree" ng-include="'category-item'"></li>
-    </ul>
+<div class="col-lg-12">
+    <div class="col-lg-6 tree" ng-controller="CategoryCtrl">
+        <div class="panel panel-primary">
+            <div class="panel-heading" translate>Категории</div>
+            <ul tree>
+                <li ng-repeat="category in categoriesTree" ng-include="'category-item'"></li>
+            </ul>
+            <div class="panel-footer"><button class="btn btn-block btn-success add-operation"><span class="icon icon-plus"></span> <span translate>Добавить категорию</span></button></div>
+        </div>
+    </div>
 </div>
 
 

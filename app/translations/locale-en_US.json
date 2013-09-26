@@ -33,5 +33,9 @@
     "Вы еще не добавили ни одного счета": "You have not added any accounts",
     "Редактирование счета": "Editing an account",
     "Сохранить изменения": "Save changes",
-    "Удалить учетную запись": "Delete this account"
+    "Удалить учетную запись": "Delete this account",
+    "Доход": "Income",
+    "Расход": "Outgo",
+    "Добавить категорию": "Add category",
+    "Все операции": "Any"
 }

@@ -67,6 +67,10 @@ angular.module('financeButlerApp', ['controllers', 'filters', 'directives', 'ui.
             $rootScope.$broadcast('currencyUpdate', args);
         });
 
+        $rootScope.$on('category', function(event, args) {
+            $rootScope.$broadcast('categoryUpdate', args);
+        });
+
         $rootScope.$on('breakpointChange', function(event, breakpoint, oldClass) {
 
         });

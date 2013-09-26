@@ -120,4 +120,37 @@ angular.module('directives', [])
                 };
             }
         };
-    });
+    })
+    .directive('tree', ['$timeout', function($timeout) {
+        return function(scope, element) {
+            scope.$watch('categoriesTree', function(categories) {
+                if (!categories) {
+                    return;
+                }
+
+                $timeout(function() {
+                    element.find('li').hide();
+                    element.find('> li').show();
+
+                    element.find('li button.toggle').on('click', function(e) {
+                        if (e.isPropagationStopped()) {
+                            return;
+                        }
+
+                        var children = angular.element(e.currentTarget).parent().parent().find('> ul > li');
+
+                        if (children.is(':visible')) {
+                            children.hide('fast');
+                        } else {
+                            children.show('fast');
+                        }
+
+                        angular.element(e.currentTarget).toggleClass('active');
+                        angular.element(e.currentTarget).find('span').toggleClass('icon-plus icon-minus');
+
+                        e.stopPropagation();
+                    });
+                }, 1000);
+            });
+        };
+    }]);
