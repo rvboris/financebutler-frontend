@@ -1,0 +1,14 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-default toggle" ng-show="{{category.children.length > 0}}"><span class="icon icon-plus"></span></button>
+    <button type="button" class="btn btn-default disabled">{{category.name}}</button>
+    <button type="button" class="btn btn-default" ng-class="{ 'disabled': !category.editable  }" ng-click="categoryDialogOpen('edit', category.id)"><span class="icon icon-edit"></span></button>
+    <button type="button" class="btn btn-default" ng-class="{ 'disabled': !category.editable  }" ng-click="removeCategoryDialogOpen(category.id)"><span class="glyphicon glyphicon-trash"></span></button>
+</div>
+
+<span class="label {{classByType(category.type)}}" translate>{{typeTitleByType(category.type)}}</span>
+
+<ul>
+    <li ng-repeat="category in category.children">
+        <subview data="'category-item'"></subview>
+    </li>
+</ul>

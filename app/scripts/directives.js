@@ -122,17 +122,18 @@ angular.module('directives', [])
         };
     })
     .directive('tree', ['$timeout', function($timeout) {
-        return function(scope, element) {
-            scope.$watch('categoriesTree', function(categories) {
-                if (!categories) {
-                    return;
-                }
+        return {
+            scope: true,
+            link: function($scope, element) {
+                $scope.$watch('categoriesTree', function(categories) {
+                    if (!categories) {
+                        return;
+                    }
 
-                $timeout(function() {
                     element.find('li').hide();
                     element.find('> li').show();
 
-                    element.find('li button.toggle').on('click', function(e) {
+                    element.on('click', 'li button.toggle', function(e) {
                         if (e.isPropagationStopped()) {
                             return;
                         }
@@ -150,7 +151,7 @@ angular.module('directives', [])
 
                         e.stopPropagation();
                     });
-                }, 1000);
-            });
+                });
+            }
         };
     }]);

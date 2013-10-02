@@ -300,6 +300,7 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 
         $scope.categories = baseCategory.getList();
         $scope.categoriesTree = [];
+        $scope.activeMode = null;
 
         $scope.$on('categoryUpdate', function(event, args) {
             if (args !== true) {
