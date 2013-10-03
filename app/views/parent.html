@@ -1,18 +1,19 @@
 <div class="top-border"></div>
 
-<div id="sidebar" class="wrap visible-xs" ng-controller="UserCtrl">
+<div id="sidebar" class="visible-xs" ng-controller="UserCtrl">
     <subview data="'sidebar'"></subview>
 </div>
 
-<div class="hidden-xs col-sm-2 col-md-2 col-lg-2 sidebar" ng-controller="UserCtrl">
-    <div style="wrap">
-        <subview data="'sidebar'"></subview>
-    </div>
+<div class="hidden-xs sidebar" ng-controller="UserCtrl">
+    <subview data="'sidebar'"></subview>
 </div>
 
-<div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
-    <header class="header" ng-controller="UserCtrl">
-        <a ng-href="#{{ $state.href('parent.operations') }}" class="logo">Finance Butler</a>
+<div class="sidebar-spacer hidden-xs"></div>
+
+<div class="center-container clearfix">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <header class="header" ng-controller="UserCtrl">
+            <a ng-href="#{{ $state.href('parent.operations') }}" class="logo">Finance Butler</a>
         <span class="navbar-text pull-right visible-md visible-lg">
             <p class="pull-right arrears" ng-show="arrears.length" ng-cloak>
                 <span translate>Долги</span>
@@ -27,10 +28,13 @@
                 </span>
             </p>
         </span>
-        <button type="button" class="btn btn-info visible-xs pull-right sidebar-toggle" pageslide="left" href="#sidebar">
-            <span class="icon icon-tasks"></span>
-        </button>
-    </header>
+            <button type="button" class="btn btn-info visible-xs pull-right sidebar-toggle" pageslide="left"
+                    href="#sidebar">
+                <span class="icon icon-tasks"></span>
+            </button>
+        </header>
 
-    <div class="row section" ng-class="$state.current.name | stateClass" ui-view></div>
+        <div class="row section" ng-class="$state.current.name | stateClass" ui-view></div>
+    </div>
 </div>
+

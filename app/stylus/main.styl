@@ -17,6 +17,8 @@ screen-sm-query = "screen and (min-width: " + screen-sm + ") and (max-width: " +
 screen-md-query = "screen and (min-width: " + screen-md + ") and (max-width: " + screen-md-max + ")"
 screen-lg-query = "screen and (min-width: " + screen-lg + ")"
 
+sidebar-width = 230px
+
 @css {
     @font-face {
         font-family: 'harlow_solid_italicitalic';
@@ -54,11 +56,6 @@ body
   &.ps-hidden
     padding 0
 
-.sidebar
-  position fixed
-  top 0
-  bottom 0
-
 .top-border
   position absolute
   top 0
@@ -67,13 +64,23 @@ body
   height 55px
   border-bottom 5px solid #E6EBEC
 
+.center-container
+  margin-left sidebar-width
+
+.sidebar-spacer
+  width sidebar-width
+  float left
+
+.sidebar
+  position fixed
+  left 0
+  top 0
+  bottom 0
+  width sidebar-width
+
 .sidebar, .ng-pageslide
   background midnight
   padding 20px
-  .wrap
-    height 100%
-    width 100%
-    position relative
 
   .userinfo
     margin-bottom 15px
@@ -152,6 +159,7 @@ img.flag
 
 .header
   margin-bottom 15px
+  padding-left 15px
   .logo
     background url('../images/logo.png') no-repeat left center
     font-family 'harlow_solid_italicitalic'
@@ -169,6 +177,8 @@ img.flag
     margin 8px
 
 @media screen-xs-query
+  .center-container
+    margin-left 0
   .ng-pageslide
     display block
   .header
@@ -176,7 +186,3 @@ img.flag
     .logo
       background none
       padding-left 0
-
-@media screen-lg-query
-  .sidebar
-    max-width 205px

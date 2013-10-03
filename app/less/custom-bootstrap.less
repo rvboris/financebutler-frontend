@@ -8,3 +8,9 @@
     }
   }
 }
+
+.modal-content {
+  border: 5px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
+  border: 5px solid @modal-content-border-color;
+  .box-shadow(none);
+}
