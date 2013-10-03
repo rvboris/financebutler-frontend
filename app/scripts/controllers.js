@@ -163,6 +163,8 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 
             if (accountId) {
                 $scope.activeAccountId = accountId;
+            } else {
+                $scope.activeAccountId = null;
             }
 
             if (mode === 'new') {
@@ -234,8 +236,6 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
         };
 
         $scope.removeAccountDialogSave = function() {
-            $scope.removeAccountDialogClose();
-
             $scope.accounts.then(function(accounts) {
                 var accountToDelete = _.find(accounts, function(account) {
                     return account.id === $scope.activeAccountId;
@@ -243,6 +243,7 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 
                 accountToDelete.remove().then(function() {
                     $scope.accounts = baseAccounts.getList();
+                    $scope.removeAccountDialogClose();
                 });
             });
         };
@@ -300,7 +301,108 @@ angular.module('controllers', ['restangular', 'ui.bootstrap.modal', 'ui.bootstra
 
         $scope.categories = baseCategory.getList();
         $scope.categoriesTree = [];
+        $scope.types = ['out', 'in', 'any'];
+
+        $scope.categoryDialog = false;
         $scope.activeMode = null;
+        $scope.activeCategoryId = null;
+        $scope.activeCategory = {
+            name: null,
+            type: null,
+            parent: null
+        };
+
+        $scope.parentSelectOptions = {
+            allowClear: true,
+            width: '100%'
+        };
+
+        $scope.typeSelectDisabled = false;
+        $scope.typeSelectOptions = {
+            width: '100%'
+        };
+
+        $scope.categoryDialogOpen = function(mode, categoryId) {
+            $scope.activeMode = mode;
+
+            if (categoryId) {
+                $scope.activeCategoryId = categoryId;
+            } else {
+                $scope.activeCategoryId = null;
+            }
+
+            if (mode === 'new') {
+                $scope.activeCategory.name = '';
+                $scope.activeCategory.type = 'out';
+                $scope.activeCategory.parent = null;
+                $scope.activeCategory.default = null;
+                $scope.categoryDialog = true;
+            } else {
+                $scope.categories.then(function(categories) {
+                    var categoryToPopulate = _.find(categories, function(category) {
+                        return category.id === categoryId;
+                    });
+
+                    $scope.activeCategory.name = categoryToPopulate.name;
+                    $scope.activeCategory.type = categoryToPopulate.type;
+                    $scope.activeCategory.parent = categoryToPopulate.parentId;
+                    $scope.activeCategory.default = categoryToPopulate.defaultId;
+                    $scope.categoryDialog = true;
+                });
+            }
+        };
+
+        $scope.categoryDialogClose = function() {
+            $scope.categoryDialog = false;
+        };
+
+        $scope.categoryDialogSave = function() {
+            if ($scope.activeMode === 'new') {
+                baseCategory.post({
+                    name: $scope.activeCategory.name,
+                    type: $scope.activeCategory.type,
+                    parent: $scope.activeCategory.parent
+                }).then(function () {
+                    $scope.categories = baseCategory.getList();
+                    $scope.categoryDialogClose();
+                });
+
+                return;
+            }
+
+            $scope.categories.then(function(categories) {
+                var categoryToSave = _.find(categories, function(category) {
+                    return category.id === $scope.activeCategoryId;
+                });
+
+                categoryToSave.name = $scope.activeCategory.name;
+                categoryToSave.type = $scope.activeCategory.type;
+                categoryToSave.parent = $scope.activeCategory.parent;
+
+                categoryToSave.put().then(function() {
+                    $scope.categories = baseCategory.getList();
+                    $scope.categoryDialogClose();
+                });
+            });
+        };
+
+        $scope.$watch('activeCategory.parent', function(parentId) {
+            if (!parentId) {
+                $scope.typeSelectDisabled = false;
+                return;
+            }
+
+            parentId = _.parseInt(parentId);
+
+            $scope.categories.then(function(categories) {
+                var parentCategory = _.find(categories, function(category) {
+                    return category.id === parentId;
+                });
+
+                $scope.activeCategory.type = parentCategory.type;
+                $scope.typeSelectDisabled = true;
+            });
+        });
 
         $scope.$on('categoryUpdate', function(event, args) {
             if (args !== true) {

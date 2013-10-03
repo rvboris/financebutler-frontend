@@ -14,13 +14,13 @@
     <header class="header" ng-controller="UserCtrl">
         <a ng-href="#{{ $state.href('parent.operations') }}" class="logo">Finance Butler</a>
         <span class="navbar-text pull-right visible-md visible-lg">
-            <p class="pull-right arrears" ng-show="arrears.length">
+            <p class="pull-right arrears" ng-show="arrears.length" ng-cloak>
                 <span translate>Долги</span>
                 <span ng-repeat="byCurrency in arrears">
                     <span class="label label-danger">{{byCurrency.total | accounting: byCurrency.currency:currency }}</span>
                 </span>
             </p>
-            <p class="pull-right instock" ng-show="instock.length">
+            <p class="pull-right instock" ng-show="instock.length" ng-cloak>
                 <span translate>В наличии</span>
                 <span ng-repeat="byCurrency in instock">
                     <span class="label label-success">{{byCurrency.total | accounting: byCurrency.currency:currency }}</span>
