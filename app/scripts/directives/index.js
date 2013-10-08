@@ -1,0 +1,1 @@
+var fbDirectives = angular.module('fb.directives', []);

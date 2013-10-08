@@ -1,11 +1,11 @@
 <div class="text-center userinfo">
-    <h4 ng-bind="users[0].name" class="username center"></h4>
+    <h4 ng-bind="user.name" class="username center"></h4>
     <button type="button" class="thumbnail userpic" ng-click="settingsDialogOpen()">
         <div class="overlay"></div>
         <div class="settings">
             <span class="glyphicon glyphicon-cog"></span>
         </div>
-        <img ng-src="{{users[0].picture}}">
+        <img ng-src="{{user.picture}}">
     </button>
 </div>
 

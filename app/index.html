@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
     </head>
-    <body ng-app="financeButlerApp" breakpoint="{ 0: 'xs', 481: 'sm', 769: 'md', 1201: 'lg' }">
+    <body ng-app="fb">
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
@@ -59,6 +59,7 @@
 
         <!-- build:js scripts/plugins.js -->
         <script src="scripts/bootstrap-ui.js"></script>
+        <script src="bower_components/eventemitter2/lib/eventemitter2.js"></script>
         <script src="bower_components/select2/select2.js"></script>
         <script src="bower_components/select2/select2_locale_ru.js"></script>
         <script src="bower_components/angular-ui-select2/src/select2.js"></script>
@@ -74,11 +75,38 @@
         <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
         <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/controllers.js"></script>
-        <script src="scripts/directives.js"></script>
-        <script src="scripts/filters.js"></script>
-        <script src="scripts/app.js"></script>
-        <!-- endbuild -->
+        <!-- build:js({.tmp,app}) scripts/directives.js -->
+        <script src="scripts/directives/index.js"></script>
+        <script src="scripts/directives/fb.pageslide.js"></script>
+        <script src="scripts/directives/fb.smartfloat.js"></script>
+        <script src="scripts/directives/fb.subview.js"></script>
+        <script src="scripts/directives/fb.tree.js"></script>
+
+        <!-- build:js({.tmp,app}) scripts/factory.js -->
+        <script src="scripts/factory/index.js"></script>
+        <script src="scripts/factory/fb.eventBus.js"></script>
+        <script src="scripts/factory/fb.currency.js"></script>
+        <script src="scripts/factory/fb.category.js"></script>
+        <script src="scripts/factory/fb.user.js"></script>
+        <script src="scripts/factory/fb.account.js"></script>
+        <script src="scripts/factory/fb.locale.js"></script>
+
+        <!-- build:js({.tmp,app}) scripts/filters.js -->
+        <script src="scripts/filters/index.js"></script>
+        <script src="scripts/filters/fb.categoryFlatToTree.js"></script>
+        <script src="scripts/filters/fb.currencyCodeById.js"></script>
+        <script src="scripts/filters/fb.accounting.js"></script>
+        <script src="scripts/filters/fb.removeCategorySelf.js"></script>
+        <script src="scripts/filters/fb.stateClass.js"></script>
+
+        <!-- build:js({.tmp,app}) scripts/controllers.js -->
+        <script src="scripts/controllers/index.js"></script>
+        <script src="scripts/controllers/fb.AccountCtrl.js"></script>
+        <script src="scripts/controllers/fb.UserCtrl.js"></script>
+        <script src="scripts/controllers/fb.ErrorCtrl.js"></script>
+        <script src="scripts/controllers/fb.CategoryCtrl.js"></script>
+        <script src="scripts/controllers/fb.OperationCtrl.js"></script>
+
+        <script src="scripts/fb.app.js"></script>
     </body>
 </html>

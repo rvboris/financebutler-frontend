@@ -1,0 +1,1 @@
+var fbFilters = angular.module('fb.filters', []);

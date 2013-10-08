@@ -5,7 +5,7 @@
     <button type="button" class="btn btn-default" ng-class="{ 'disabled': !category.editable  }" ng-click="removeCategoryDialogOpen(category.id)"><span class="glyphicon glyphicon-trash"></span></button>
 </div>
 
-<span class="label {{classByType(category.type)}} hidden-xs" translate>{{typeTitleByType(category.type)}}</span>
+<span class="label {{classByType(category.type)}}" translate>{{typeTitleByType(category.type)}}</span>
 
 <ul>
     <li ng-repeat="category in category.children">
