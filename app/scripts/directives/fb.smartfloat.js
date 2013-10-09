@@ -1,4 +1,4 @@
-fbDirectives
+angular.module('fb.directives')
     .directive('smartfloat', function() {
         var currencyRegexp = /^[-]?(0|[1-9][0-9]*)((\.|,)[0-9]+)?([eE][+-]?[0-9]+)?$/;
 

@@ -1,4 +1,4 @@
-fbDirectives
+angular.module('fb.directives')
     .directive('pageslide', function() {
         return {
             restrict: "A",
@@ -10,13 +10,13 @@ fbDirectives
                 param.side = attrs.pageslide || 'right';
                 param.speed = attrs.psSpeed || '0.5';
 
-                var css_class = 'ng-pageslide ps-hidden';
-                css_class += ' ps-' + param.side;
+                var cssClass = 'ng-pageslide ps-hidden';
+                cssClass += ' ps-' + param.side;
 
                 var content = document.getElementById(attrs.href.substr(1));
                 var slider = document.createElement('div');
                 slider.id = "ng-pageslide";
-                slider.className = css_class;
+                slider.className = cssClass;
 
                 document.body.appendChild(slider);
                 slider.appendChild(content);

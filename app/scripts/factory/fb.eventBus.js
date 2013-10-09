@@ -1,4 +1,5 @@
-fbFactory.factory('eventBus', function() {
-    //noinspection JSHint
-    return new EventEmitter2();
-});
+angular.module('fb.factory')
+    .factory('eventBus', function() {
+        //noinspection JSHint
+        return new EventEmitter2();
+    });

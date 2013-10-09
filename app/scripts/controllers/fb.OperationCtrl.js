@@ -1,2 +1,3 @@
-angular.module('fb.controllers').controller('OperationCtrl', ['$scope', function($scope) {
-}]);
+angular.module('fb.controllers')
+    .controller('OperationCtrl', function($scope) {
+    });

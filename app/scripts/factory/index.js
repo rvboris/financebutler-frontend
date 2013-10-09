@@ -1,1 +1,1 @@
-var fbFactory = angular.module('fb.factory', ['restangular']);
+angular.module('fb.factory', ['restangular']);

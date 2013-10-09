@@ -1,15 +1,5 @@
-angular.module('fb.controllers').controller('UserCtrl', [
-    '$scope',
-    '$q',
-    '$translate',
-    '$window',
-    'locale',
-    'currency',
-    'category',
-    'user',
-    'account',
-    'eventBus',
-    function($scope, $q, $translate, $window, locale, currency, category, user, account, eventBus) {
+angular.module('fb.controllers')
+    .controller('UserCtrl', function($scope, $q, $translate, $window, locale, currency, category, user, account, eventBus) {
         $scope.locales = locale.getList();
         $scope.currency = currency.getList();
         $scope.user = user.getOne();
@@ -109,4 +99,4 @@ angular.module('fb.controllers').controller('UserCtrl', [
                 $window.location.reload();
             });
         };
-    }]);
+    });

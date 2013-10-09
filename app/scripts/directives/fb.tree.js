@@ -1,5 +1,5 @@
-fbDirectives
-    .directive('tree', ['$timeout', function() {
+angular.module('fb.directives')
+    .directive('tree', function() {
         return {
             scope: true,
             link: function($scope, element) {
@@ -32,4 +32,4 @@ fbDirectives
                 });
             }
         };
-    }]);
+    });

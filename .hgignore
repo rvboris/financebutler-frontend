@@ -4,3 +4,4 @@ config.js
 public/
 tmp/
 app/styles/main.css
+app/styles/bootstrap.css

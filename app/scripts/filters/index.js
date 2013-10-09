@@ -1,1 +1,1 @@
-var fbFilters = angular.module('fb.filters', []);
+angular.module('fb.filters', []);

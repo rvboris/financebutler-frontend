@@ -1,35 +1,36 @@
-fbFactory.service('user', ['Restangular', 'eventBus', 'config', function(Restangular, eventBus, config) {
-    var baseUser = Restangular.all('user');
-    var user;
+angular.module('fb.factory')
+    .factory('user', function(Restangular, eventBus, config) {
+        var baseUser = Restangular.all('user');
+        var user;
 
-    var getOne = function() {
-        return user;
-    };
+        var getOne = function() {
+            return user;
+        };
 
-    var updateOne = function() {
-        if (config.apiKey === false) {
-            return;
-        }
+        var updateOne = function() {
+            if (config.apiKey === false) {
+                return;
+            }
 
-        baseUser.getList().then(function(list) {
-            user = list[0];
+            baseUser.getList().then(function(list) {
+                user = list[0];
+                eventBus.emit('user.one', user);
+            }, function() {
+                user = undefined;
+                eventBus.emit('user.one', user);
+            });
+        };
+
+        var putOne = function(newUser) {
+            user = newUser;
             eventBus.emit('user.one', user);
-        }, function() {
-            user = undefined;
-            eventBus.emit('user.one', user);
-        });
-    };
+        };
 
-    var putOne = function(newUser) {
-        user = newUser;
-        eventBus.emit('user.one', user);
-    };
+        updateOne();
 
-    updateOne();
-
-    return {
-        getOne: getOne,
-        updateOne: updateOne,
-        putOne: putOne
-    };
-}]);
+        return {
+            getOne: getOne,
+            updateOne: updateOne,
+            putOne: putOne
+        };
+    });
