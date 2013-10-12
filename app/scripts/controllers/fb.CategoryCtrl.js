@@ -1,12 +1,12 @@
 angular.module('fb.controllers')
     .controller('CategoryCtrl', function($scope, $filter, Restangular, category, eventBus) {
-        var baseCategory = Restangular.all('category');
-
         $scope.categories = category.getList();
-        $scope.categoriesTree = $filter('categoryFlatToTree')($scope.categories);
+        $scope.categoriesTree = _.isUndefined($scope.categories) ? [] : $filter('categoryFlatToTree')($scope.categories);
         $scope.types = ['out', 'in', 'any'];
 
         $scope.categoryDialog = false;
+        $scope.removeAccountDialog = false;
+
         $scope.activeMode = null;
         $scope.activeCategoryId = null;
         $scope.activeCategory = {
@@ -31,7 +31,7 @@ angular.module('fb.controllers')
         });
 
         $scope.$watch('activeCategory.parent', function(parentId) {
-            if (!parentId) {
+            if (_.isUndefined(parentId) || _.isNull(parentId) || _.isEmpty(parentId)) {
                 $scope.typeSelectDisabled = false;
                 return;
             }
@@ -80,7 +80,7 @@ angular.module('fb.controllers')
 
         $scope.categoryDialogSave = function() {
             if ($scope.activeMode === 'new') {
-                baseCategory
+                Restangular.all('category')
                     .post({
                         name: $scope.activeCategory.name,
                         type: $scope.activeCategory.type,
@@ -93,21 +93,69 @@ angular.module('fb.controllers')
                 return;
             }
 
-            $scope.categories.then(function(categories) {
-                var lastIdx;
-                var categoryToSave = _.find(categories, function(category, idx) {
-                    lastIdx = idx;
-                    return category.id === $scope.activeCategoryId;
+            var lastIdx;
+            var categoryToSave = _.find($scope.categories, function(category, idx) {
+                lastIdx = idx;
+                return category.id === $scope.activeCategoryId;
+            });
+
+            categoryToSave.name = $scope.activeCategory.name;
+            categoryToSave.type = $scope.activeCategory.type;
+            categoryToSave.parent = _.parseInt($scope.activeCategory.parent);
+
+            categoryToSave.put().then(function(newCategory) {
+                var childrens = $filter('categoryChildrens')($scope.categories, newCategory.id);
+
+                _.each($scope.categories, function(category) {
+                    _.each(childrens, function(child) {
+                        if (category.id === child.id) {
+                            category.type = newCategory.type;
+                        }
+                    });
                 });
 
-                categoryToSave.name = $scope.activeCategory.name;
-                categoryToSave.type = $scope.activeCategory.type;
-                categoryToSave.parent = $scope.activeCategory.parent;
+                category.putList(lastIdx, newCategory);
 
-                categoryToSave.put().then(function(newCategory) {
-                    category.putList(lastIdx, newCategory);
-                    $scope.categoryDialogClose();
+                $scope.categoryDialogClose();
+            });
+        };
+
+        $scope.removeCategoryDialogOpen = function(categoryId) {
+            $scope.removeCategoryDialog = true;
+            $scope.activeCategoryId = categoryId;
+        };
+
+        $scope.removeCategoryDialogClose = function() {
+            $scope.removeCategoryDialog = false;
+        };
+
+        $scope.removeCategoryDialogSave = function() {
+            var lastIdx;
+            var categoryToDelete = _.find($scope.categories, function(category, idx) {
+                lastIdx = idx;
+                return category.id === $scope.activeCategoryId;
+            });
+
+            if (_.isUndefined(categoryToDelete)) {
+                $scope.removeCategoryDialogClose();
+                return;
+            }
+
+            categoryToDelete.remove().then(function() {
+                var childrens = $filter('categoryChildrens')($scope.categories, categoryToDelete.id);
+                var idxToDelete = [ lastIdx ];
+
+                _.each($scope.categories, function(category, idx) {
+                    _.each(childrens, function(children) {
+                        if (children.id === category.id) {
+                            idxToDelete.push(idx);
+                        }
+                    });
                 });
+
+                category.removeList(idxToDelete);
+
+                $scope.removeCategoryDialogClose();
             });
         };
 

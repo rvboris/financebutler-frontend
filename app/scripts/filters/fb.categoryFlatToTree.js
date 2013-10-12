@@ -1,36 +1,32 @@
 angular.module('fb.filters')
     .filter('categoryFlatToTree', function() {
         return function(categories) {
-            var flat = {}, root = [], parentIdx, i;
+            var flat = {}, root = [], parentIdx;
 
             _.each(categories, function(category) {
                 category.children = [];
                 flat['id' + category.id] = category;
             });
 
-            for (i in flat) {
-                if (flat.hasOwnProperty(i)) {
-                    parentIdx = 'id' + flat[i].parentId;
+            _.forIn(flat, function(val, key) {
+                parentIdx = 'id' + flat[key].parentId;
 
-                    if (!flat[parentIdx]) {
-                        continue;
-                    }
-
-                    flat[parentIdx].children.push(flat[i]);
+                if (!flat[parentIdx]) {
+                    return;
                 }
-            }
 
-            for (i in flat) {
-                if (flat.hasOwnProperty(i)) {
-                    parentIdx = 'id' + flat[i].parentId;
+                flat[parentIdx].children.push(flat[key]);
+            });
 
-                    if (flat[parentIdx]) {
-                        continue;
-                    }
+            _.forIn(flat, function(val, key) {
+                parentIdx = 'id' + flat[key].parentId;
 
-                    root.push(flat[i]);
+                if (flat[parentIdx]) {
+                    return;
                 }
-            }
+
+                root.push(flat[key]);
+            });
 
             return root;
         };

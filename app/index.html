@@ -55,7 +55,8 @@
         {{/if}}
 
         <script src="bower_components/jquery/jquery.js"></script>
-        <script src="scripts/angular.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
 
         <!-- build:js scripts/plugins.js -->
         <script src="bower_components/eventemitter2/lib/eventemitter2.js"></script>
@@ -93,6 +94,7 @@
         <!-- build:js({.tmp,app}) scripts/filters.js -->
         <script src="scripts/filters/index.js"></script>
         <script src="scripts/filters/fb.categoryFlatToTree.js"></script>
+        <script src="scripts/filters/fb.categoryChildrens.js"></script>
         <script src="scripts/filters/fb.currencyCodeById.js"></script>
         <script src="scripts/filters/fb.accounting.js"></script>
         <script src="scripts/filters/fb.removeCategorySelf.js"></script>
@@ -106,6 +108,7 @@
         <script src="scripts/controllers/fb.ErrorCtrl.js"></script>
         <script src="scripts/controllers/fb.CategoryCtrl.js"></script>
         <script src="scripts/controllers/fb.OperationCtrl.js"></script>
+        <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/fb.app.js"></script>

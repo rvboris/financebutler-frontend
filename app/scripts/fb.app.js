@@ -6,6 +6,7 @@ angular.module('fb', [
         'ui.state',
         'pascalprecht.translate',
         'chieffancypants.loadingBar',
+        'ngAnimate',
         'restangular'
     ])
     .constant('config', {

@@ -16,8 +16,8 @@
     <button type="button" class="btn btn-block btn-primary add-account" ng-click="accountDialogOpen('new')"><span class="icon icon-plus"></span> <span translate>Добавить счет</span></button>
     <div class="panel panel-primary">
         <div class="panel-heading" translate>Счета</div>
-        <h4 ng-show="!accounts.length" class="text-center" translate>Вы еще не добавили ни одного счета</h4>
-        <table class="table accounts" ng-show="accounts.length">
+        <h4 ng-if="!accounts.length" class="text-center" translate>Вы еще не добавили ни одного счета</h4>
+        <table class="table accounts" ng-if="accounts.length > 0">
             <thead>
                 <tr>
                     <th translate>Название</th>

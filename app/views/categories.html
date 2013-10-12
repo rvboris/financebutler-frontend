@@ -67,6 +67,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" modal="removeCategoryDialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="removeCategoryDialogClose()">&times;</button>
+                        <h4 class="modal-title" translate>Удаление категории</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate>Вы уверены что хотите удалить эту категорию? Вложенные категории будут также удалены.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" ng-click="removeCategoryDialogSave()"><span class="glyphicon glyphicon-trash"></span> <span translate>Удалить категорию</span></button>
+                        <button type="button" class="btn btn-warning cancel" ng-click="removeCategoryDialogClose()"><span class="icon icon-remove"></span> <span translate>Отмена</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

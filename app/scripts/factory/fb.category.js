@@ -24,12 +24,25 @@ angular.module('fb.factory')
             eventBus.emit('category.list', categoryList);
         };
 
+        var removeList = function(idx) {
+            if (_.isArray(idx)) {
+                _.each(idx, function(i) {
+                    categoryList.splice(i, 1);
+                });
+            } else {
+                categoryList.splice(idx, 1);
+            }
+
+            eventBus.emit('category.list', categoryList);
+        };
+
         updateList();
 
         return {
             getList: getList,
             pushList: pushList,
             putList: putList,
-            updateList: updateList
+            updateList: updateList,
+            removeList: removeList
         };
     });
