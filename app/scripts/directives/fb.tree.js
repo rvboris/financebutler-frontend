@@ -1,6 +1,7 @@
 angular.module('fb.directives')
-    .directive('tree', function(eventBus) {
+    .directive('tree', function(eventBus, $filter) {
         var openedNodes = [];
+        var treeOpen = false;
 
         return {
             scope: true,
@@ -49,6 +50,18 @@ angular.module('fb.directives')
                         angular.element(e.currentTarget).find('span').toggleClass('icon-plus icon-minus');
 
                         e.stopPropagation();
+                    });
+
+                    element.on('click', 'button.tree-toggler', function() {
+                        if (treeOpen) {
+                            element.find('li button.toggle.active').trigger('click');
+                            angular.element(this).text($filter('translate')('Раскрыть все'));
+                            treeOpen = false;
+                        } else {
+                            element.find('li button.toggle:not(.active)').trigger('click');
+                            angular.element(this).text($filter('translate')('Свернуть все'));
+                            treeOpen = true;
+                        }
                     });
                 };
 

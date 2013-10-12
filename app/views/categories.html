@@ -3,6 +3,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading" translate>Категории</div>
             <ul tree>
+                <button class="btn btn-info pull-right tree-toggler" translate>Раскрыть все</button>
                 <li ng-repeat="category in categoriesTree">
                     <subview data="'category-item'"></subview>
                 </li>

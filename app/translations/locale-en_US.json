@@ -37,5 +37,16 @@
     "Доход": "Income",
     "Расход": "Outgo",
     "Добавить категорию": "Add category",
-    "Все операции": "Any"
+    "Все операции": "Any",
+    "название категории": "category name",
+    "Выберите главную категорию": "Select the root category",
+    "Главная категория": "Root category",
+    "Тип операций *": "Type of operations *",
+    "Добавление категории": "Adding a category",
+    "Редактирование категории": "Editing category",
+    "Удаление категории": "Deleting a category",
+    "Вы уверены что хотите удалить эту категорию? Вложенные категории будут также удалены.": "Are you sure you want to delete this category? Nested category will also be deleted.",
+    "Удалить категорию": "Delete a category",
+    "Раскрыть все": "Expand all",
+    "Свернуть все": "Collapse all"
 }
